@@ -1,0 +1,173 @@
+First, we will create a new project directory and initialize it as an npm package. Open your terminal and navigate to the location where you want to create your project. Run the following command to create a new directory:
+
+mkdir my-app
+you can replace my-app with the name of your choice. Next, navigate to the new directory using:
+
+cd my-app
+ & initialize it as an npm package by running the following command:
+
+npm init -y
+This will create a package.json file in the root of your project, which will contain all the necessary information about your project and its dependencies.
+
+Step 2: Install Angular & Express
+
+Next, we will install angular and express for our project. Run the following command to install Angular and Express:
+
+npm install @angular/cli express
+Step 3: Create the Angular client
+
+We will use the Angular CLI (Command Line Interface) to create the Angular client. Run the following command to generate a new Angular project:
+
+ng new client  
+Project Structure: After completing the installation procedures, the following structure will be displayed:
+
+
+
+ 
+
+Step 4: Create the Express server
+
+Now, we will create the Express server. Create a new file called “server.js” at the root of your project. In this file, we will set up our Express server. First, we will update the Express server to handle requests from the Angular client. In the “server.js” file, add the following code to handle CORS (Cross-Origin Resource Sharing) and to allow the Angular client to make requests to the Express server:
+
+server.js
+ 
+const express = require('express'); 
+const app = express(); 
+  
+// handling CORS 
+app.use((req, res, next) => { 
+    res.header("Access-Control-Allow-Origin",  
+               "http://localhost:4200"); 
+    res.header("Access-Control-Allow-Headers",  
+               "Origin, X-Requested-With, Content-Type, Accept"); 
+    next(); 
+}); 
+  
+// route for handling requests from the Angular client 
+app.get('/api/message', (req, res) => { 
+    res.json({ message:  
+            'Hello GEEKS FOR GEEKS Folks from the Express server!' }); 
+}); 
+  
+app.listen(3000, () => { 
+    console.log('Server listening on port 3000'); 
+});
+Step 5: Update the Angular client
+
+Next, we will update the Angular client to make requests to the Express server. In the “src/app” directory, create a new file called “api.service.ts”. In this file, we will create a service that will handle the requests to the Express server.
+
+api.service.ts
+ 
+import { Injectable } from '@angular/core'; 
+import { HttpClient } from '@angular/common/http'; 
+  
+@Injectable({ 
+    providedIn: 'root'
+}) 
+export class ApiService { 
+    constructor(private http: HttpClient) { } 
+    getMessage() { 
+        return this.http.get( 
+            'http://localhost:3000/api/message'); 
+    } 
+}
+Here, we created a service that has a single method, “getMessage()”, which makes a GET request to the Express server’s ‘/api/message’ route. You will also require to import the HttpClient Module into your app.module.ts file, add the following code to import it:
+
+app.module.ts
+ 
+import { NgModule } from '@angular/core'; 
+import { BrowserModule }  
+    from '@angular/platform-browser'; 
+import { AppRoutingModule }  
+    from './app-routing.module'; 
+import { AppComponent } from './app.component'; 
+import { HttpClientModule }  
+    from '@angular/common/http'; 
+  
+@NgModule({ 
+    declarations: [ 
+        AppComponent 
+    ], 
+    imports: [ 
+        BrowserModule, 
+        AppRoutingModule, 
+        HttpClientModule 
+    ], 
+    providers: [], 
+    bootstrap: [AppComponent] 
+}) 
+export class AppModule { }
+Step 6: Use the service in the Angular component
+
+Finally, we will use the service in an Angular component to display the message from the Express server. In the “src/app” directory, open the “app.component.ts” file.
+
+app.component.ts
+ 
+import { Component, OnInit } from '@angular/core'; 
+import { ApiService } from './api.service'; 
+  
+@Component({ 
+    selector: 'app-root', 
+    templateUrl: './app.component.html', 
+    styleUrls: ['./app.component.css'] 
+}) 
+export class AppComponent implements OnInit { 
+    title = 'frontEnd'; 
+    message: any; 
+    constructor(private apiService: ApiService) { }; 
+    ngOnInit() { 
+        this.apiService.getMessage().subscribe(data => { 
+            this.message = data; 
+        }); 
+    } 
+}
+Step 7: Display the message on the Angular template
+
+Open the “src/app/app.component.html” file and add the following code to display the message from the server:
+
+app.component.html
+ 
+<h1 style="color: green;  
+           font-style: italic;"> 
+    GEEKS FOR GEEKS 
+</h1> 
+<h3> 
+    Build a Simple Web App with Express & Angular 
+</h3> 
+<h5> 
+    The below message is fetched from the express backend 
+</h5> 
+<p *ngIf="message"> 
+    {{ message.message }} 
+</p>
+This will display the message from the Express server on the Angular template.
+
+Step 8: Start the development server
+
+Now that we have integrated the Angular front-end with the Express back-end, we can start the development server. To start the Angular development server, navigate into the “client” directory and run the following command:
+
+ng serve
+This will start the development server and make your Angular client available at “http://localhost:4200/”.
+
+To start the Express server, open a new terminal window and navigate to the root of your project. Run the following command:
+
+node server.js
+With this, you have successfully created an example application that integrates the Angular front-end with the Express back-end. The Angular client makes a GET request to the Express server, which returns a JSON object containing a message. The message is then displayed on the Angular template.
+
+Output: The following output will be displayed by the Angular and Express servers:
+
+Express:
+
+
+ 
+
+Angular:
+
+
+ 
+
+
+Here's a complete roadmap for you to become a developer:
+Learn DSA -> Master Frontend/Backend/Full Stack -> Build Projects -> Keep Applying to Jobs
+
+And why go anywhere else when our DSA to Development: Coding Guide helps you do this in a single program! Apply now to our DSA to Development Program and our counsellors will connect with you for further guidance & support.
